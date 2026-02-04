@@ -124,7 +124,7 @@ export class CartService {
     const cart = await this.prisma.cart.findUnique({
       where: { id },
       include: {
-        items: { include: { variant: true } },
+        items: { include: { variant: { include: { product: { include: { images: true } } } } } },
         discounts: { include: { discount: true } },
       },
     })
@@ -136,7 +136,7 @@ export class CartService {
     const cart = await this.prisma.cart.findFirst({
       where: { userId, status: 'active' },
       include: {
-        items: { include: { variant: true } },
+        items: { include: { variant: { include: { product: { include: { images: true } } } } } },
         discounts: { include: { discount: true } },
       },
     })
@@ -148,7 +148,7 @@ export class CartService {
     const cart = await this.prisma.cart.findFirst({
       where: { sessionId, status: 'active', userId: null },
       include: {
-        items: { include: { variant: true } },
+        items: { include: { variant: { include: { product: { include: { images: true } } } } } },
         discounts: { include: { discount: true } },
       },
     })
@@ -170,7 +170,7 @@ export class CartService {
         expiresAt,
       },
       include: {
-        items: { include: { variant: true } },
+        items: { include: { variant: { include: { product: { include: { images: true } } } } } },
         discounts: { include: { discount: true } },
       },
     })

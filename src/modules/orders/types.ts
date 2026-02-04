@@ -101,6 +101,7 @@ export interface CreateOrderInput {
   shippingAddress: Address
   billingAddress?: Address
   discountCode?: string
+  currency?: string
   notes?: string
   metadata?: Record<string, unknown>
 }
@@ -151,6 +152,9 @@ export interface OrderQueryParams {
 // ============================================
 
 export interface OrderModuleConfig extends BaseModuleConfig {
+  /** Default currency for orders */
+  defaultCurrency?: string
+
   /** Order number generation */
   orderNumber?: {
     prefix?: string

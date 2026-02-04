@@ -141,6 +141,7 @@ export class OrderService {
         tax: totals.tax,
         shipping: totals.shipping,
         total: totals.total,
+        currency: orderData.currency || this.config.defaultCurrency || 'USD',
         shippingAddress: orderData.shippingAddress as object,
         billingAddress: orderData.billingAddress as object | undefined,
         notes: orderData.notes,

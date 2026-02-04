@@ -140,8 +140,8 @@ model ApiKey {
 model Session {
   id           String   @id @default(uuid())
   userId       String
-  token        String   @unique
-  refreshToken String?  @unique
+  token        String   @unique @db.VarChar(500)
+  refreshToken String?  @unique @db.VarChar(500)
   userAgent    String?
   ipAddress    String?
   expiresAt    DateTime

@@ -55,11 +55,13 @@ export class OrderController {
       }
 
       // Check ownership or email match
-      if (
-        !req.user?.permissions?.includes('orders.read') &&
-        order.userId !== req.user?.id &&
-        order.email !== req.user?.email
-      ) {
+      // For guests, allow access if email query param matches order email
+      const emailQuery = req.query.email as string | undefined
+      const hasPermission = req.user?.permissions?.includes('orders.read')
+      const isOwner = order.userId === req.user?.id
+      const emailMatches = order.email === req.user?.email || order.email === emailQuery
+
+      if (!hasPermission && !isOwner && !emailMatches) {
         throw new ForbiddenError('Access denied')
       }
 

@@ -21,12 +21,14 @@ import { AuthenticatedRequest } from '../../shared/types/index.js'
 export function setupOrderModule(options: {
   prisma: PrismaClient
   verifyToken?: (token: string) => Promise<AuthenticatedRequest['user']>
+  defaultCurrency?: string
   orderNumber?: OrderModuleConfig['orderNumber']
   autoTransitions?: OrderModuleConfig['autoTransitions']
   features?: OrderModuleConfig['features']
   hooks?: OrderModuleConfig['hooks']
 }): Router {
   const config: OrderModuleConfig = {
+    defaultCurrency: options.defaultCurrency || 'USD',
     orderNumber: {
       prefix: 'ORD',
       length: 8,

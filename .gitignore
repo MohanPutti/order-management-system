@@ -42,3 +42,11 @@ prisma/*.db-journal
 *.bak
 tmp/
 temp/
+
+# Compiled JS in src (keep .ts as source of truth)
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+
+# Claude Code config (project-specific)
+.claude/
