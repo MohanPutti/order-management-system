@@ -54,6 +54,7 @@ export function setupUserModule(options: {
   refreshSecret?: string
   refreshExpiresIn?: string
   basePath?: string
+  frontendUrl?: string
   features?: UserModuleConfig['features']
   hooks?: UserModuleConfig['hooks']
   /** Google OAuth configuration */
@@ -71,6 +72,7 @@ export function setupUserModule(options: {
       refreshSecret: options.refreshSecret,
       refreshExpiresIn: options.refreshExpiresIn || '7d',
     },
+    frontendUrl: options.frontendUrl,
     features: {
       registration: true,
       emailVerification: false,

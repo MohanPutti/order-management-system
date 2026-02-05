@@ -169,6 +169,9 @@ export interface UserModuleConfig extends BaseModuleConfig {
   /** JWT configuration */
   jwt: JwtConfig
 
+  /** Frontend URL for OAuth redirects */
+  frontendUrl?: string
+
   /** Password requirements */
   password?: {
     minLength?: number

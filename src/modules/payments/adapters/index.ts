@@ -22,6 +22,16 @@ export {
   RazorpayPaymentMethod,
 } from './razorpay.js'
 
+// PhonePe Adapter (direct PhonePe gateway)
+export {
+  PhonePeAdapter,
+  createPhonePeAdapter,
+  PhonePeConfig,
+  PhonePePaymentRequest,
+  PhonePePaymentResponse,
+  PhonePeStatusResponse,
+} from './phonepe.js'
+
 // ============================================
 // Adapter Factory
 // ============================================
@@ -29,12 +39,14 @@ export {
 import { PaymentAdapter } from '../types.js'
 import { StripeAdapter, StripeConfig } from './stripe.js'
 import { RazorpayAdapter, RazorpayConfig } from './razorpay.js'
+import { PhonePeAdapter, PhonePeConfig } from './phonepe.js'
 
-export type AdapterType = 'stripe' | 'razorpay'
+export type AdapterType = 'stripe' | 'razorpay' | 'phonepe'
 
 export interface AdapterConfigs {
   stripe?: StripeConfig
   razorpay?: RazorpayConfig
+  phonepe?: PhonePeConfig
 }
 
 /**
@@ -64,6 +76,10 @@ export function createPaymentAdapters(configs: AdapterConfigs): Record<string, P
 
   if (configs.razorpay) {
     adapters.razorpay = new RazorpayAdapter(configs.razorpay)
+  }
+
+  if (configs.phonepe) {
+    adapters.phonepe = new PhonePeAdapter(configs.phonepe)
   }
 
   return adapters

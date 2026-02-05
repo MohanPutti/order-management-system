@@ -99,12 +99,15 @@ export function createUserRouter(options: CreateUserRouterOptions): Router {
         const code = req.query.code as string | undefined
         const error = req.query.error as string | undefined
 
+        // Get frontend URL from config or use default
+        const frontendUrl = config.frontendUrl || 'http://localhost:5173'
+
         if (error) {
-          throw new BadRequestError(`Google OAuth error: ${error}`)
+          return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(`Google OAuth error: ${error}`)}`)
         }
 
         if (!code) {
-          throw new BadRequestError('No authorization code provided')
+          return res.redirect(`${frontendUrl}/login?error=${encodeURIComponent('No authorization code provided')}`)
         }
 
         // Handle the callback - creates or finds user
@@ -121,13 +124,13 @@ export function createUserRouter(options: CreateUserRouterOptions): Router {
           }
         }
 
-        // Return response (or redirect based on your frontend needs)
-        sendSuccess(res, {
-          ...loginResult,
-          isNewUser: result.user.isNew,
-        })
+        // Redirect to frontend with token in URL fragment (more secure than query params)
+        const redirectUrl = `${frontendUrl}/auth/callback#token=${loginResult.tokens.accessToken}`
+        res.redirect(redirectUrl)
       } catch (err) {
-        next(err)
+        const frontendUrl = config.frontendUrl || 'http://localhost:5173'
+        const errorMsg = err instanceof Error ? err.message : 'OAuth authentication failed'
+        res.redirect(`${frontendUrl}/login?error=${encodeURIComponent(errorMsg)}`)
       }
     })
   }
