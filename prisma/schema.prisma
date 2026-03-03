@@ -326,6 +326,15 @@ model Color {
   @@map("colors")
 }
 
+model Packaging {
+  id        String   @id @default(uuid())
+  name      String   @unique
+
+  createdAt DateTime @default(now())
+
+  @@map("packaging")
+}
+
 // ============================================
 // CART MANAGEMENT MODULE
 // ============================================
