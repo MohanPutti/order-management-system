@@ -69,6 +69,7 @@ export const createCategorySchema = z.object({
   name: z.string().min(1).max(255),
   slug: z.string().min(1).max(255).optional(),
   description: z.string().max(1000).optional(),
+  image: z.string().optional(),
   parentId: z.string().uuid().optional(),
   sortOrder: z.number().int().min(0).optional(),
 })
@@ -77,6 +78,7 @@ export const updateCategorySchema = z.object({
   name: z.string().min(1).max(255).optional(),
   slug: z.string().min(1).max(255).optional(),
   description: z.string().max(1000).nullable().optional(),
+  image: z.string().nullable().optional(),
   parentId: z.string().uuid().nullable().optional(),
   sortOrder: z.number().int().min(0).optional(),
 })

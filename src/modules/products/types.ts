@@ -45,6 +45,7 @@ export interface Category {
   name: string
   slug: string
   description: string | null
+  image: string | null
   parentId: string | null
   sortOrder: number
   createdAt: Date
@@ -123,6 +124,7 @@ export interface CreateCategoryInput {
   name: string
   slug?: string
   description?: string
+  image?: string
   parentId?: string
   sortOrder?: number
 }
@@ -131,6 +133,7 @@ export interface UpdateCategoryInput {
   name?: string
   slug?: string
   description?: string
+  image?: string
   parentId?: string
   sortOrder?: number
 }

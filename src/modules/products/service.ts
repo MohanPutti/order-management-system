@@ -443,6 +443,7 @@ export class ProductService {
         name: data.name,
         slug,
         description: data.description,
+        image: data.image,
         parentId: data.parentId,
         sortOrder: data.sortOrder || 0,
       },
