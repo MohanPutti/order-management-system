@@ -403,8 +403,9 @@ export class ProductService {
   // Categories
   // ==========================================
 
-  async getCategories(): Promise<CategoryWithChildren[]> {
+  async getCategories(status?: string): Promise<CategoryWithChildren[]> {
     const categories = await this.prisma.category.findMany({
+      where: status ? { status } : undefined,
       orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }],
     })
 
@@ -446,6 +447,7 @@ export class ProductService {
         image: data.image,
         parentId: data.parentId,
         sortOrder: data.sortOrder || 0,
+        status: data.status || 'active',
       },
     })
 
@@ -477,6 +479,19 @@ export class ProductService {
       where: { id },
       data,
     })
+
+    // Cascade: archive all products in this category when category is archived
+    if (data.status === 'archived' && existing.status !== 'archived') {
+      const productCategories = await this.prisma.productCategory.findMany({
+        where: { categoryId: id },
+      })
+      if (productCategories.length > 0) {
+        await this.prisma.product.updateMany({
+          where: { id: { in: productCategories.map((pc) => pc.productId) } },
+          data: { status: 'archived' },
+        })
+      }
+    }
 
     return category as Category
   }

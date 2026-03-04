@@ -65,6 +65,8 @@ export const updateInventorySchema = z.object({
 // Category Validators
 // ============================================
 
+export const categoryStatusSchema = z.enum(['active', 'draft', 'archived'])
+
 export const createCategorySchema = z.object({
   name: z.string().min(1).max(255),
   slug: z.string().min(1).max(255).optional(),
@@ -72,6 +74,7 @@ export const createCategorySchema = z.object({
   image: z.string().optional(),
   parentId: z.string().uuid().optional(),
   sortOrder: z.number().int().min(0).optional(),
+  status: categoryStatusSchema.optional().default('active'),
 })
 
 export const updateCategorySchema = z.object({
@@ -81,6 +84,7 @@ export const updateCategorySchema = z.object({
   image: z.string().nullable().optional(),
   parentId: z.string().uuid().nullable().optional(),
   sortOrder: z.number().int().min(0).optional(),
+  status: categoryStatusSchema.optional(),
 })
 
 // ============================================

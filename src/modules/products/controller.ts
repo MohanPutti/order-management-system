@@ -163,12 +163,13 @@ export class ProductController {
   // ==========================================
 
   listCategories = async (
-    _req: AuthenticatedRequest,
+    req: AuthenticatedRequest,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
     try {
-      const categories = await this.productService.getCategories()
+      const status = req.query.status as string | undefined
+      const categories = await this.productService.getCategories(status)
       sendSuccess(res, categories)
     } catch (error) {
       next(error)

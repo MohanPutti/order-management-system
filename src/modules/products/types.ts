@@ -40,6 +40,8 @@ export interface ProductVariant {
   updatedAt: Date
 }
 
+export type CategoryStatus = 'active' | 'draft' | 'archived'
+
 export interface Category {
   id: string
   name: string
@@ -48,6 +50,7 @@ export interface Category {
   image: string | null
   parentId: string | null
   sortOrder: number
+  status: CategoryStatus
   createdAt: Date
   updatedAt: Date
 }
@@ -127,6 +130,7 @@ export interface CreateCategoryInput {
   image?: string
   parentId?: string
   sortOrder?: number
+  status?: CategoryStatus
 }
 
 export interface UpdateCategoryInput {
@@ -136,6 +140,7 @@ export interface UpdateCategoryInput {
   image?: string
   parentId?: string
   sortOrder?: number
+  status?: CategoryStatus
 }
 
 export interface UpdateInventoryInput {
