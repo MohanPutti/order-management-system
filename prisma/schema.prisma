@@ -337,6 +337,15 @@ model Packaging {
   @@map("packaging")
 }
 
+model Customisation {
+  id        String   @id @default(uuid())
+  name      String   @unique
+
+  createdAt DateTime @default(now())
+
+  @@map("customisations")
+}
+
 // ============================================
 // CART MANAGEMENT MODULE
 // ============================================
