@@ -347,6 +347,40 @@ model Customisation {
 }
 
 // ============================================
+// INVENTORY MANAGEMENT MODULE
+// ============================================
+
+model InventoryType {
+  id        String           @id @default(uuid())
+  name      String           @unique
+  unit      String?
+
+  createdAt DateTime         @default(now())
+
+  entries   InventoryEntry[]
+
+  @@map("inventory_types")
+}
+
+model InventoryEntry {
+  id           String        @id @default(uuid())
+  typeId       String
+  quantity     Decimal       @db.Decimal(10, 3)
+  pricePerUnit Decimal       @db.Decimal(10, 2)
+  totalCost    Decimal       @db.Decimal(10, 2)
+  note         String?
+  date         DateTime      @default(now())
+
+  createdAt    DateTime      @default(now())
+
+  type         InventoryType @relation(fields: [typeId], references: [id], onDelete: Restrict)
+
+  @@index([typeId])
+  @@index([date])
+  @@map("inventory_entries")
+}
+
+// ============================================
 // CART MANAGEMENT MODULE
 // ============================================
 
