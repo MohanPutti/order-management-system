@@ -128,6 +128,15 @@ export class OrderController {
     }
   }
 
+  delete = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const result = await this.orderService.delete(req.params.id)
+      sendSuccess(res, result)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   getEvents = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
       const events = await this.orderService.getEvents(req.params.id)

@@ -37,7 +37,7 @@ export class OrderService {
 
   async findById(id: string): Promise<OrderWithRelations | null> {
     const order = await this.prisma.order.findUnique({
-      where: { id },
+      where: { id, deletedAt: null },
       include: {
         items: true,
         payments: true,
@@ -50,7 +50,7 @@ export class OrderService {
 
   async findByOrderNumber(orderNumber: string): Promise<OrderWithRelations | null> {
     const order = await this.prisma.order.findUnique({
-      where: { orderNumber },
+      where: { orderNumber, deletedAt: null },
       include: {
         items: true,
         payments: true,
@@ -76,7 +76,7 @@ export class OrderService {
       dateTo,
     } = params
 
-    const where: Record<string, unknown> = {}
+    const where: Record<string, unknown> = { deletedAt: null }
 
     if (userId) where.userId = userId
     if (status) where.status = status
@@ -366,6 +366,18 @@ export class OrderService {
       orderBy: { createdAt: 'desc' },
     })
     return events as OrderEvent[]
+  }
+
+  async delete(id: string): Promise<{ id: string }> {
+    const order = await this.findById(id)
+    if (!order) {
+      throw new NotFoundError('Order not found')
+    }
+    await this.prisma.order.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    })
+    return { id }
   }
 
   // ==========================================

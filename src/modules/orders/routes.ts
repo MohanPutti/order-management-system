@@ -83,6 +83,15 @@ export function createOrderRouter(options: CreateOrderRouterOptions): Router {
     controller.update
   )
 
+  // Delete order (admin only)
+  router.delete(
+    '/orders/:id',
+    authenticate,
+    requirePermissions('orders.update'),
+    validateParams(idParamSchema),
+    controller.delete
+  )
+
   // Confirm order (admin only)
   router.post(
     '/orders/:id/confirm',
