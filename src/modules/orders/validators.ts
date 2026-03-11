@@ -13,7 +13,7 @@ export const orderStatusSchema = z.enum([
   'cancelled',
 ])
 
-export const paymentStatusSchema = z.enum(['pending', 'paid', 'refunded', 'failed'])
+export const paymentStatusSchema = z.enum(['pending', 'paid', 'partially_paid', 'refunded', 'failed'])
 
 export const fulfillmentStatusSchema = z.enum(['unfulfilled', 'partial', 'fulfilled'])
 
