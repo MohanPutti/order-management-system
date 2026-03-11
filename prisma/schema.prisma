@@ -350,15 +350,28 @@ model Customisation {
 // INVENTORY MANAGEMENT MODULE
 // ============================================
 
+model InventoryCategory {
+  id        String          @id @default(uuid())
+  name      String          @unique
+  createdAt DateTime        @default(now())
+
+  types     InventoryType[]
+
+  @@map("inventory_categories")
+}
+
 model InventoryType {
-  id        String           @id @default(uuid())
-  name      String           @unique
-  unit      String?
+  id         String            @id @default(uuid())
+  name       String            @unique
+  unit       String?
+  categoryId String?
 
-  createdAt DateTime         @default(now())
+  createdAt  DateTime          @default(now())
 
-  entries   InventoryEntry[]
+  category   InventoryCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  entries    InventoryEntry[]
 
+  @@index([categoryId])
   @@map("inventory_types")
 }
 
